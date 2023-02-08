@@ -1,0 +1,95 @@
+﻿<Window x:Class="WpfFolderBrowser.Browser"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfFolderBrowser"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             Height="450" Width="800" Title="フォルダを選択してください。" Loaded="Window_Loaded" Icon="Resources/shell32_3_0.png">
+
+    <Window.Resources>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="28"/>
+            <RowDefinition/>
+            <RowDefinition Height="28"/>
+        </Grid.RowDefinitions>
+        <Grid Background="LightGray" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="28"/>
+                <ColumnDefinition Width="28"/>
+                <ColumnDefinition Width="28"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Foreground" Value="DarkGray"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="FontSize" Value="24"/>
+                    <Setter Property="FontFamily" Value="Wingdings2"/>
+                </Style>
+            </Grid.Resources>
+            <Button x:Name="backButton" Content="←" IsEnabled="False" Click="BackFolder" IsEnabledChanged="Button_IsEnabledChanged"/>
+            <Button x:Name="reButton" Content="→" Grid.Column="1" IsEnabled="False" Click="ReDoFolder" IsEnabledChanged="Button_IsEnabledChanged"/>
+            <Button Content="↑" Grid.Column="2" Click="UpFolder"/>
+            <TextBox x:Name="addressBox" Height="24" Text="{Binding Address}" Grid.Column="3" KeyDown="AddressBox_KeyDown"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+            </Grid.Resources>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ScrollViewer.Resources>
+                    <!--<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">10</sys:Double>-->
+                    <Style TargetType="ScrollBar">
+                        <Setter Property="LayoutTransform">
+                            <Setter.Value>
+                                <ScaleTransform ScaleX="0.5"/>
+                            </Setter.Value>
+                        </Setter>
+                        <!--<Setter Property="RenderTransform">
+                            <Setter.Value>
+                                <ScaleTransform ScaleX="0.5"/>
+                            </Setter.Value>
+                        </Setter>-->
+                    </Style>
+                </ScrollViewer.Resources>
+                <StackPanel x:Name="sidePanel"/>
+            </ScrollViewer>
+            <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch"/>
+            <ScrollViewer x:Name="viewScrollViewer" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Grid.Column="2" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+                <ScrollViewer.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem x:Name="newFolder" Header="新規フォルダ作成" Click="NewFolder_Click"/>
+                    </ContextMenu>
+                </ScrollViewer.ContextMenu>
+                <WrapPanel x:Name="viewer" Focusable="False" Orientation="Vertical">
+                    <WrapPanel.Resources>
+                        <Style TargetType="Button">
+                            <!--<EventSetter Event="KeyDown" Handler="Folder_KeyDown"/>-->
+                        </Style>
+                    </WrapPanel.Resources>
+                </WrapPanel>
+            </ScrollViewer>
+        </Grid>
+
+        <Grid Background="LightGray" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="nameBox" Height="24" Text="{Binding FolderName, Mode=TwoWay}"/>
+            <Button Content="フォルダを選択" Grid.Column="1" Height="24" Click="ClickSelect" Width="80"/>
+        </Grid>
+    </Grid>
+</Window>
