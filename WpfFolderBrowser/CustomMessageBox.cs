@@ -93,8 +93,12 @@ namespace WpfFolderBrowser
                 var hInstance = Win32Native.GetWindowHInstance(helper.Handle);
                 var threadId = Win32Native.GetCurrentThreadId();
                 hHook = Win32Native.SetWindowsHookEx(new Win32Native.HOOKPROC(HookProc), hInstance, threadId);
+                return System.Windows.MessageBox.Show(owner, text, caption, button, icon, defaultResult, options);
             }
-            return System.Windows.MessageBox.Show(owner, text, caption, button, icon, defaultResult, options);
+            else
+            {
+                return System.Windows.MessageBox.Show(text, caption, button, icon, defaultResult, options);
+            }
         }
 
         private static IntPtr hOwner = (IntPtr)0;
